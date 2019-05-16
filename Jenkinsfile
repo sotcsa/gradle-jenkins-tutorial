@@ -10,4 +10,23 @@ job('gradle-jenkins-tutorial') {
     triggers {
         scm('H/* * * * *')
     }
+    publishers {
+        extendedEmail {
+            recipientList('me@alma.org')
+            defaultSubject('Oops')
+            defaultContent('Something broken')
+            contentType('text/html')
+            triggers {
+                failure {
+                    subject('Subject FAILURE')
+                    content('Body')
+                    sendTo {
+                        developers()
+                        requester()
+                        culprits()
+                    }
+                }
+            }
+        }
+    }
 }
